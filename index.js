@@ -15,7 +15,7 @@ app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
 
 const tweetJob = hookData => {
-  client.post('statuses/update', { status: hookData.issue.title + ' ' + hookData.issue.html_url })
+  client.post('statuses/update', { status: hookData.issue.title + ' ' + hookData.issue.html_url + ' #elmlang' })
 }
 
 const messageBuilder = hookData => {
