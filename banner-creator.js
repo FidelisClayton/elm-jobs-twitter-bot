@@ -11,12 +11,18 @@ const webshotOptions = {
 };
 
 const renderBanner = ({ id, city, country, jobTitle, tags }, callback) => {
-  ejs.renderFile('./banner-template', { city, country, jobTitle, tags }, (err, data) => {
+  const fileName = `elm-jobs${id}.png`;
+
+  ejs.renderFile('./banner-template.ejs', { city, country, jobTitle, tags }, (err, data) => {
     if (!err) {
-      webshot(data, `elm-job-${id}.png`, webshotOptions, (err) => {
+      webshot(data, fileName, webshotOptions, (err) => {
         if (!err)
-          callback();
+          callback(fileName);
+        else
+          console.log(err)
       });
+    } else {
+      console.log(err);
     }
   });
 }
