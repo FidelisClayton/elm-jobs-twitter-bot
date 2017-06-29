@@ -1,8 +1,13 @@
 require('dotenv').config()
-var express = require("express");
-var bodyParser = require("body-parser");
-var app = express();
-var Twitter = require('twitter');
+const express = require("express");
+const bodyParser = require("body-parser");
+const app = express();
+const Twitter = require('twitter');
+const webshot = require('webshot');
+const fs = require('fs');
+const axios = require('axios');
+
+const renderBanner = require('./banner-creator');
 
 var client = new Twitter({
   consumer_key: process.env.TWITTER_CONSUMER_KEY,
@@ -11,22 +16,66 @@ var client = new Twitter({
   access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
 });
 
-app.use(bodyParser.urlencoded({extended: false}))
-app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
 
-const tweetJob = hookData => {
-  client.post('statuses/update', { status: hookData.issue.title + ' ' + hookData.issue.html_url + ' #elmlang' })
-}
+const tweetJob = hookData =>  (fileName) => {
+  const data = fs.readFileSync(fileName);
+
+  client.post('media/upload', { media: data }, (error, media, response) => {
+    if (!error) {
+      const status = {
+        status: hookData.issue.title + ' ' + hookData.issue.html_url + ' #elmlang',
+        media_ids: media.media_id_string
+      };
+
+      client.post('statuses/update', status, (error, tweet, response) => {
+        if (error) return console.log(error)
+
+        return console.log("Tweet successfully created")
+      });
+    } else {
+      console.log(error)
+    }
+  })
+};
 
 const messageBuilder = hookData => {
-  return hookData.issue.title
+  return hookData.issue.title;
+};
+
+const getDataFromTitle = title => {
+  const [ location, jobTitle ] = title.split(']');
+  const [ city, country ] = location.replace('[', '').split('/');
+
+  return {
+    city: city.trim(),
+    country: country.trim(),
+    jobTitle: jobTitle.trim()
+  };
 }
 
 app.post("/issues-webhook", function(req, res) {
   const hookData = req.body
+  const { issue } = hookData;
 
   if (hookData.action === 'opened') {
-    tweetJob(hookData)
+    const { city, country, jobTitle } = getDataFromTitle(issue.title);
+
+    axios.get(`http://tinyurl.com/api-create.php?url=${issue.html_url}`)
+      .then(res => {
+        renderBanner({
+          id: issue.id,
+          city,
+          country,
+          jobTitle,
+          tags: issue.labels,
+          link: res.data
+        },
+          tweetJob(hookData)
+        );
+      })
+      .catch(console.log)
   }
 
   res.send(req.body);
