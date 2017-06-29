@@ -27,7 +27,7 @@
         background-color: #303a9a;
         content: ' ';
         height: 100%;
-        opacity: 0.9;
+        opacity: 0.85;
         position: absolute;
         width: 100%;
       }
@@ -86,7 +86,7 @@
       }
 
       .background .flag {
-        background-image: url(https://upload.wikimedia.org/wikipedia/en/thumb/0/05/Flag_of_Brazil.svg/1280px-Flag_of_Brazil.svg.png);
+        background-image: url(data:image/png;base64,<%= image %>);
         background-position: center center;
         background-repeat: no-repeat;
         background-size: cover;
@@ -120,12 +120,12 @@
   </head>
   <body>
     <div class="banner">
-      <label class="city">LONDON</label>
-      <label class="country">UK</label>
+      <label class="city"><%= city.toUpperCase() %></label>
+      <label class="country"><%= country.toUpperCase() %></label>
 
       <div class="title-wrapper">
-        <h4 class="job-title">Frontend product developer</h4>
-        <label class="link">www.google.com</label>
+        <h4 class="job-title"><%= jobTitle.toUpperCase() %></h4>
+        <label class="link"><%= link %></label>
       </div>
 
       <div class="background">
@@ -133,8 +133,9 @@
       </div>
 
       <ul class="tags">
-        <li class="tag">Senior</li>
-        <li class="tag">Located</li>
+      <% tags.map(tag => { %>
+        <li class="tag"><%= tag.name.toUpperCase() %></li>
+      <% }) %>
       </ul>
     </div>
   </body>

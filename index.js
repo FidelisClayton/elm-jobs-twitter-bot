@@ -5,6 +5,7 @@ const app = express();
 const Twitter = require('twitter');
 const webshot = require('webshot');
 const fs = require('fs');
+const axios = require('axios');
 
 const renderBanner = require('./banner-creator');
 
@@ -23,19 +24,15 @@ const tweetJob = hookData =>  (fileName) => {
 
   client.post('media/upload', { media: data }, (error, media, response) => {
     if (!error) {
-      console.log(media);
-
       const status = {
         status: hookData.issue.title + ' ' + hookData.issue.html_url + ' #elmlang',
         media_ids: media.media_id_string
       };
 
       client.post('statuses/update', status, (error, tweet, response) => {
-        if (!error) {
-          console.log(tweet);
-        } else {
-          console.log(error)
-        }
+        if (error) return console.log(error)
+
+        return console.log("Tweet successfully created")
       });
     } else {
       console.log(error)
@@ -58,8 +55,6 @@ const getDataFromTitle = title => {
   };
 }
 
-console.log(getDataFromTitle('[Natal/Brazil] Teste teste teste'));
-
 app.post("/issues-webhook", function(req, res) {
   const hookData = req.body
   const { issue } = hookData;
@@ -67,19 +62,20 @@ app.post("/issues-webhook", function(req, res) {
   if (hookData.action === 'opened') {
     const { city, country, jobTitle } = getDataFromTitle(issue.title);
 
-    renderBanner({
-      id: issue.id,
-      city,
-      country,
-      jobTitle,
-      tags: issue.labels
-    },
-      tweetJob(hookData)
-    );
-
-    fs.writeFile("last-response.json", JSON.stringify(req.body), function(err) {
-      console.log("The file was saved!");
-    });
+    axios.get(`http://tinyurl.com/api-create.php?url=${issue.html_url}`)
+      .then(res => {
+        renderBanner({
+          id: issue.id,
+          city,
+          country,
+          jobTitle,
+          tags: issue.labels,
+          link: res.data
+        },
+          tweetJob(hookData)
+        );
+      })
+      .catch(console.log)
   }
 
   res.send(req.body);
