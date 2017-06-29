@@ -1,0 +1,141 @@
+<html>
+  <head>
+    <link href="https://fonts.googleapis.com/css?family=PT+Sans|PT+Sans+Caption" rel="stylesheet">
+
+    <style>
+      * {
+        margin: 0;
+      }
+
+      .banner {
+        height: 254px;
+        overflow: hidden;
+        position: relative;
+        width: 520px;
+      }
+
+      .background {
+        height: 100%;
+        left: 0;
+        position: absolute;
+        top: 0;
+        width: 100%;
+        z-index: -1;
+      }
+
+      .background:before {
+        background-color: #303a9a;
+        content: ' ';
+        height: 100%;
+        opacity: 0.9;
+        position: absolute;
+        width: 100%;
+      }
+
+      .background .flag {
+        position: absolute;
+        top: calc(50% - 130px);
+        width: 100%;
+        z-index: -1;
+      }
+
+      .city {
+        color: #FFF;
+        font-family: 'PT Sans', sans-serif;
+        font-size: 16pt;
+        line-height: 18px;
+        margin-left: 15px;
+        margin-top: 20px;
+        position: absolute;
+        top: 0;
+      }
+
+      .country {
+        color: #FFF;
+        font-family: 'PT Sans', sans-serif;
+        font-size: 12pt;
+        margin-left: 15px;
+        opacity: 0.6;
+        position: absolute;
+        top: 35px;
+      }
+
+      .title-wrapper {
+        height: 100%;
+        left: calc(50% - 208px);
+        position: absolute;
+        text-align: center;
+        top: 0;
+        width: 80%;
+      }
+
+      .title-wrapper h4 {
+        color: #FFF;
+        font-family: 'PT Sans', sans-serif;
+        font-size: 22pt;
+        font-weight: bold;
+        line-height: 35px;
+        margin-top: calc(50% - 127px);
+        text-transform: uppercase;
+      }
+
+      .title-wrapper label {
+        color: rgba(255, 255, 255, 0.57);
+        font-family: 'PT Sans Caption', sans-serif;
+        margin-top: 0px;
+      }
+
+      .background .flag {
+        background-image: url(https://upload.wikimedia.org/wikipedia/en/thumb/0/05/Flag_of_Brazil.svg/1280px-Flag_of_Brazil.svg.png);
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        height: 100%;
+        left: 0;
+        position: absolute;
+        top: 0;
+        width: 100%;
+      }
+
+      .tags {
+        bottom: 10px;
+        list-style-type: none;
+        padding-left: 0;
+        position: absolute;
+        text-align: center;
+        width: 100%;
+      }
+
+      .tags .tag {
+        display: inline-block;
+        padding: 2px 10px;
+        background-color: rgba(255, 255, 255, 0.50);
+        color: #4151eb;
+        font-family: 'PT Sans', sans-serif;
+        margin: 0px 5px;
+        border-radius: 7px;
+        text-transform: uppercase;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="banner">
+      <label class="city">LONDON</label>
+      <label class="country">UK</label>
+
+      <div class="title-wrapper">
+        <h4 class="job-title">Frontend product developer</h4>
+        <label class="link">www.google.com</label>
+      </div>
+
+      <div class="background">
+        <div class="flag"></div>
+      </div>
+
+      <ul class="tags">
+        <li class="tag">Senior</li>
+        <li class="tag">Located</li>
+      </ul>
+    </div>
+  </body>
+</html>
