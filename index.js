@@ -25,7 +25,7 @@ const tweetJob = hookData =>  (fileName) => {
   client.post('media/upload', { media: data }, (error, media, response) => {
     if (!error) {
       const status = {
-        status: hookData.issue.title + ' ' + hookData.issue.html_url + ' #elmlang',
+        status: formatStatus(hookData.issue.title, hookData.issue.html_url),
         media_ids: media.media_id_string
       };
 
@@ -39,6 +39,14 @@ const tweetJob = hookData =>  (fileName) => {
     }
   })
 };
+
+const formatStatus = (title, url) => {
+  if (title.length > 90) {
+    return title.substring(0, 90) + '... ' + url + ' #elmlang'
+  } else {
+    return title + ' ' + url + ' #elmlang'
+  }
+}
 
 const messageBuilder = hookData => {
   return hookData.issue.title;
