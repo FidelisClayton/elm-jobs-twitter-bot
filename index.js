@@ -57,8 +57,8 @@ const getDataFromTitle = title => {
   const [ city, country ] = location.replace('[', '').split('/');
 
   return {
-    city: city.trim(),
-    country: country.trim(),
+    city: city ? city.trim() : "",
+    country: country ? country.trim() : "",
     jobTitle: jobTitle.trim()
   };
 }
