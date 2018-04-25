@@ -6,6 +6,7 @@ const Twitter = require('twitter');
 const webshot = require('webshot');
 const fs = require('fs');
 const axios = require('axios');
+const fetch = require('node-fetch')
 
 const renderBanner = require('./banner-creator');
 const buildChart = require('./chart-creator');
@@ -93,18 +94,6 @@ app.post("/issues-webhook", function(req, res) {
 
   res.send(req.body);
 });
-
-app.use(express.static('public'))
-
-app.get('/build-chart', function(req, res) {
-  buildChart()
-    .then(() => {
-      res.send('chart built')
-    })
-    .catch(() => {
-      res.status(500)
-    })
-})
 
 var port = process.env.PORT || 3000;
 app.listen(port);
