@@ -8,6 +8,7 @@ const fs = require('fs');
 const axios = require('axios');
 
 const renderBanner = require('./banner-creator');
+const buildChart = require('./chart-creator');
 
 var client = new Twitter({
   consumer_key: process.env.TWITTER_CONSUMER_KEY,
@@ -18,6 +19,8 @@ var client = new Twitter({
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
+
+buildChart()
 
 const tweetJob = hookData =>  (fileName) => {
   const data = fs.readFileSync(fileName);
@@ -86,8 +89,22 @@ app.post("/issues-webhook", function(req, res) {
       .catch(console.log)
   }
 
+  buildChart()
+
   res.send(req.body);
 });
+
+app.use(express.static('public'))
+
+app.get('/build-chart', function(req, res) {
+  buildChart()
+    .then(() => {
+      res.send('chart built')
+    })
+    .catch(() => {
+      res.status(500)
+    })
+})
 
 var port = process.env.PORT || 3000;
 app.listen(port);
