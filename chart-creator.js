@@ -118,7 +118,7 @@ const buildChartOptions = data => {
 
 const buildChart = chartOptions => {
   const chartNode = new ChartjsNode(1000, 500)
-  const imagePath = path.join(__dirname, 'public', 'chart.png')
+  const imagePath = path.join(__dirname, 'tmp', 'chart.png')
 
   return chartNode.drawChart(chartOptions)
     .then(() => chartNode.getImageBuffer('image/png'))
@@ -135,5 +135,9 @@ module.exports = () => {
     .then(buildDatasource)
     .then(buildChartOptions)
     .then(buildChart)
-    .catch(console.log)
+    .catch(error => {
+      console.log('error', error)
+
+      return new Error(error)
+    })
 }
