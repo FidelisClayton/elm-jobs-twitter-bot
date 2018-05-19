@@ -46,9 +46,9 @@ const buildOpenJobsDatasource = issues => {
 
   const data = issues.reduce((previous, issue) => {
     const key = moment(issue.created_at).format('MMM/YYYY')
-    const [ month, year ] = key.split('/')
+    const [ month, year ] = moment(issue.created_at).format('MM/YYYY').split('/')
 
-    const currentDateLimit = moment(`${year}-${month}-1`).endOf('month')
+    const currentDateLimit = moment(`${year}-${month}-1`, "YYYY-MM-D").endOf('month')
 
     const previousKeyValue = previous[key]
     const openJobs =
