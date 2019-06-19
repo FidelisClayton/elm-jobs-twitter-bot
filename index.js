@@ -18,13 +18,6 @@ var client = new Twitter({
   access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
 });
 
-console.log({
-  consumer_key: process.env.TWITTER_CONSUMER_KEY,
-  consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
-  access_token_key: process.env.TWITTER_ACCESS_TOKEN_KEY,
-  access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
-})
-
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
@@ -66,10 +59,11 @@ const messageBuilder = hookData => {
 const getDataFromTitle = title => {
   const [ location, jobTitle ] = title.split(']');
   const [ city, country ] = location.replace('[', '').split('/');
+  const haveLocation = typeof location === 'string' && typeof jobTitle === 'string';
 
   return {
-    city: city ? city.trim() : "",
-    country: country ? country.trim() : "",
+    city: haveLocation ? city.trim() : "",
+    country: haveLocation ? country.trim() : "",
     jobTitle: jobTitle ? jobTitle.trim() : title
   };
 }
