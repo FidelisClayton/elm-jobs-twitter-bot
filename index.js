@@ -63,7 +63,7 @@ const getDataFromTitle = title => {
 
   return {
     city: haveLocation ? city.trim() : "",
-    country: haveLocation ? country.trim() : "",
+    country: haveLocation && country ? country.trim() : "",
     jobTitle: jobTitle ? jobTitle.trim() : title
   };
 }
