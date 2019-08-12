@@ -73,31 +73,21 @@ const buildOpenJobsDatasource = issues => {
 
 const buildDatasource = issues => {
   const newJobs = buildNewJobsDatasource(issues)
-  const openJobs = buildOpenJobsDatasource(issues)
 
   return {
-    newJobs,
-    openJobs
+    newJobs
   }
 }
 
 const buildChartOptions = data => {
   const labels = Object.keys(data.newJobs).reverse()
   const newJobs = Object.values(data.newJobs).reverse()
-  const openJobs = Object.values(data.openJobs).reverse()
 
   return {
     type: "bar",
     data: {
       labels: labels,
       datasets: [
-        {
-          label: "# of open jobs",
-          data: openJobs,
-          backgroundColor: "rgba(255, 0, 0, 0.2)",
-          borderColor: "rgba(255, 0, 0, 1)",
-          borderWidth: 1
-        },
         {
           label: "# of new job posts",
           data: newJobs,
