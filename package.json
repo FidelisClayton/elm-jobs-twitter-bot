@@ -13,7 +13,7 @@
   "dependencies": {
     "axios": "^0.16.2",
     "body-parser": "^1.17.2",
-    "canvas": "^1.6.10",
+    "canvas": "^1.6.11",
     "chart.js": "^2.7.2",
     "chartjs-node": "^1.6.1",
     "cloudinary": "^1.11.0",
