@@ -14,7 +14,7 @@
     "axios": "^0.16.2",
     "body-parser": "^1.17.2",
     "canvas": "^1.6.10",
-    "chart.js": "^2.7.2",
+    "chart.js": "^2.9.4",
     "chartjs-node": "^1.6.1",
     "cloudinary": "^1.11.0",
     "concat-stream": "^1.6.2",
